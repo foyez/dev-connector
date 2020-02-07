@@ -1,0 +1,69 @@
+/* F.A.Q */
+
+.answer {
+  &__item { 
+    position: relative; 
+  }
+  
+  &__input {
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     opacity: 0;
+  }
+
+  &__heading {
+    font-size: 3rem;
+    font-weight: 400;
+    color: #4a19ff;
+    // margin: 6rem 0 1rem 0;
+  }
+
+  &__label {
+    cursor: pointer;
+    position: relative;
+    display: block;
+    padding-left: 3rem;
+    font-family: 'Spicy Rice', cursive;
+
+    &:before {
+      content: "";
+      position: absolute;
+      width: 0;
+      height: 0;
+      top: 50%;
+      left: 1rem;
+      border-left: .8rem solid black;
+      border-top: .8rem solid transparent;
+      border-bottom: .8rem solid transparent;
+      margin-top: -.8rem;
+    }
+  }
+}
+
+.answer__input:checked ~ .answer__heading .answer__label:before {
+  border-left: .8rem solid transparent;
+  border-top: .8rem solid black;
+  border-right: .8rem solid transparent;
+  margin-left: -.4rem;
+  margin-top: -.4rem;
+}
+
+.answer_p {
+  font-size: 1.6rem;
+  max-height: 0;
+  overflow: hidden;
+  padding-left: 3rem;
+  transition: max-height 0.4s ease;
+  font-family: 'Habibi', serif;
+
+  &:not(:last-child) {
+    margin-bottom: 1rem;
+  }
+}
+
+.answer__input:checked ~ .answer__heading ~ .answer_p {
+  max-height: 8rem;
+}

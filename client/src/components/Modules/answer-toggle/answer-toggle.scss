@@ -1,0 +1,30 @@
+.elementor-widget-container {
+	border: 1px solid #eaeaea;
+	border-radius: 2px;
+	overflow: hidden;
+	transition: background .3s, border .3s, border-radius .3s, box-shadow .3s, -webkit-border-radius .3s,
+		-webkit-box-shadow .3s;
+}
+
+.elementor-toggle {
+	text-align: left;
+}
+
+.elementor-tab-title {
+	display: flex;
+	justify-content: space-between;
+
+	border: 1px solid #eaeaea;
+	color: #3a3a3a;
+	font-size: 1.8rem;
+	padding: 3rem;
+	font-weight: 700;
+	line-height: 1;
+	border-bottom: 1px solid #d4d4d4;
+	cursor: pointer;
+	outline: none;
+}
+
+.icon {
+	content: "test";
+}

@@ -1,0 +1,121 @@
+$color-primary: #55c57a;
+$color-primary-light: #7ed56f;
+$color-primary-dark: #28b485;
+$color-black: #000;
+$color-white: #fff;
+$color-grey-dark: #777;
+
+.btn {
+  &,
+  &:link,
+  &:visited {
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1.5rem 4rem;
+    display: inline-block;
+    transition: all .2s;
+    position: relative;
+
+    // change for the <button> element
+    border: none;
+    cursor: pointer;
+  }
+
+  &:hover {
+    transform: translateY(-.3rem);
+    box-shadow: 0 1rem 2rem rgba($color-black, .2);
+  }
+
+  &:active,
+  &:focus {
+    outline: none;
+    transform: translateY(-.1rem);
+    box-shadow: 0 .5rem 1rem rgba($color-black, .2);
+  }
+
+  &--oval {
+    border-radius: 10rem;
+
+    &::after {
+      content: "";
+      display: inline-block;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      transition: all .4s;
+      border-radius: 10rem;
+    }
+
+    &:hover {
+      &::after {
+        transform: scaleX(1.4) scaleY(1.6);
+        opacity: 0;
+      }
+    }
+  }
+
+  &--white {
+    background-color: $color-white;
+    color: $color-grey-dark;
+
+    &::after {
+      background-color: $color-white;
+    }
+  }
+
+  &--green {
+    background-color: $color-primary;
+    color: $color-white;
+
+    &::after {
+      background-color: $color-primary;
+    }
+  }
+
+  &--animated {
+    animation: moveInBottom .5s ease-out .75s;
+    animation-fill-mode: backwards;
+  }
+}
+
+.btn-text {
+  &:link,
+  &:visited {
+    border-bottom: 1px solid $color-primary;
+    color: $color-primary;
+    display: inline-block;
+    font-size: 1.6rem;
+    padding: 3px;
+    text-decoration: none;
+    transition: all .2s;
+  }
+
+  &:hover {
+    box-shadow: 0 1rem 2rem rgba($color-black, .15);
+    color: $color-white;
+    background-color: $color-primary;
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    box-shadow: 0 .5rem 1rem rgba($color-black, .15);
+    transform: translateY(0);
+  }
+}
+
+// ANIMATION
+@keyframes moveInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(3rem)
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0)
+  }
+}
