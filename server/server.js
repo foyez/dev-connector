@@ -8,6 +8,8 @@ const path = require('path');
 const compression = require('compression');
 
 const config = require('./config');
+const usersRoutes = require('./routes/users');
+const profileRoutes = require('./routes/profile');
 const postsRoutes = require('./routes/posts');
 
 const app = express();
@@ -19,6 +21,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 
 // Use Routes
+app.use('/api/users', usersRoutes);
+app.use('/api/profile', profileRoutes);
 app.use('/api/posts', postsRoutes);
 
 // Check if all environment variables are set
