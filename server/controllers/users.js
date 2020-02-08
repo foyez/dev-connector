@@ -1,6 +1,8 @@
 const User = require('../models/User');
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('../config');
 
 exports.users = (req, res) => {
 	res.status(200).json({ msg: 'Users Works' });
@@ -60,10 +62,19 @@ exports.login = async (req, res) => {
 			return res.status(404).json({ email: 'User is not found.' });
 		}
 
+		// Check Password
 		const isMatch = await bcrypt.compare(password, user.password);
 
 		if (isMatch) {
-			res.json({ msg: 'Success' });
+			const payload = { id: user._id, name: user.name, avatar: user.avatar };
+
+			// Sign Token
+			jwt.sign(payload, config.secretorKey, { expiresIn: 3600 }, (error, token) => {
+				res.json({
+					success: true,
+					token: `Bearer ${token}`
+				});
+			});
 		} else {
 			return res.status(400).json({ password: 'Password is incorrect.' });
 		}
