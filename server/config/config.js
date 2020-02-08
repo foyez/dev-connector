@@ -13,7 +13,7 @@ module.exports = {
 	dbHostName: process.env.DB_HOST_NAME,
 
 	// Password
-	secretorKey: process.env.SECRETOR_KEY,
+	secretOrKey: process.env.SECRET_OR_KEY,
 
 	// Preferred port
 	port: process.env.PORT || 8080,

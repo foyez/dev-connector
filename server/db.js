@@ -1,5 +1,5 @@
-const Sequelize = require("sequelize");
-const config = require("./config");
+const Sequelize = require('sequelize');
+const config = require('./config/config');
 
 const sequelize = new Sequelize(config.dbUri);
 // const sequelize = new Sequelize("smart-brain", "postgres", "postgrese", {

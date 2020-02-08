@@ -6,8 +6,9 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
 const compression = require('compression');
+const passport = require('passport');
 
-const config = require('./config');
+const config = require('./config/config');
 const usersRoutes = require('./routes/users');
 const profileRoutes = require('./routes/profile');
 const postsRoutes = require('./routes/posts');
@@ -19,6 +20,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(cors());
+
+// Passport middleware
+app.use(passport.initialize());
+
+// Passport Config
+require('./config/passport')(passport);
 
 // Use Routes
 app.use('/api/users', usersRoutes);

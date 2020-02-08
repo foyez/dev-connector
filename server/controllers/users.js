@@ -2,7 +2,8 @@ const User = require('../models/User');
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const config = require('../config');
+const config = require('../config/config');
+const passport = require('passport');
 
 exports.users = (req, res) => {
 	res.status(200).json({ msg: 'Users Works' });
@@ -69,7 +70,7 @@ exports.login = async (req, res) => {
 			const payload = { id: user._id, name: user.name, avatar: user.avatar };
 
 			// Sign Token
-			jwt.sign(payload, config.secretorKey, { expiresIn: 3600 }, (error, token) => {
+			jwt.sign(payload, config.secretOrKey, { expiresIn: 3600 }, (error, token) => {
 				res.json({
 					success: true,
 					token: `Bearer ${token}`
@@ -81,4 +82,13 @@ exports.login = async (req, res) => {
 	} catch (error) {
 		console.log(error);
 	}
+};
+
+// CURRENT USER
+exports.currentUser = (req, res) => {
+	res.json({
+		id: req.user.id,
+		name: req.user.name,
+		email: req.user.email
+	});
 };
