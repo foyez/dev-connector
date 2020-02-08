@@ -6,6 +6,7 @@ exports.users = (req, res) => {
 	res.status(200).json({ msg: 'Users Works' });
 };
 
+// REGISTER
 exports.register = async (req, res) => {
 	const email = req.body.email;
 	const password = req.body.password;
@@ -44,4 +45,29 @@ exports.register = async (req, res) => {
 			}
 		});
 	});
+};
+
+// LOGIN
+exports.login = async (req, res) => {
+	const email = req.body.email;
+	const password = req.body.password;
+
+	try {
+		// find user by email
+		const user = await User.findOne({ email });
+
+		if (!user) {
+			return res.status(404).json({ email: 'User is not found.' });
+		}
+
+		const isMatch = await bcrypt.compare(password, user.password);
+
+		if (isMatch) {
+			res.json({ msg: 'Success' });
+		} else {
+			return res.status(400).json({ password: 'Password is incorrect.' });
+		}
+	} catch (error) {
+		console.log(error);
+	}
 };
