@@ -8,4 +8,9 @@ const usersController = require('../controllers/users');
 // @access  Private
 router.get('/test', usersController.users);
 
+// @route   POST api/users/register
+// @desc    Register user
+// @access  Public
+router.post('/register', usersController.register);
+
 module.exports = router;
