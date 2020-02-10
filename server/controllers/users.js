@@ -2,15 +2,20 @@ const User = require('../models/User');
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const config = require('../config/config');
-const passport = require('passport');
 
-exports.users = (req, res) => {
-	res.status(200).json({ msg: 'Users Works' });
-};
+const config = require('../config/config');
+const validateRegisterInput = require('../validation/register');
+const validateLoginInput = require('../validation/login');
 
 // REGISTER
 exports.register = async (req, res) => {
+	const { errors, isValid } = validateRegisterInput(req.body);
+
+	// Check validation
+	if (!isValid) {
+		return res.status(400).json(errors);
+	}
+
 	const email = req.body.email;
 	const password = req.body.password;
 	const name = req.body.name;
@@ -23,7 +28,8 @@ exports.register = async (req, res) => {
 	const user = await User.findOne({ email });
 
 	if (user) {
-		return res.status(400).json({ email: 'Email already exists.' });
+		errors.email = 'Email already exists.';
+		return res.status(400).json(errors);
 	}
 
 	const newUser = new User({
@@ -52,6 +58,13 @@ exports.register = async (req, res) => {
 
 // LOGIN
 exports.login = async (req, res) => {
+	const { errors, isValid } = validateLoginInput(req.body);
+
+	// Check validation
+	if (!isValid) {
+		return res.status(400).json(errors);
+	}
+
 	const email = req.body.email;
 	const password = req.body.password;
 
@@ -60,7 +73,8 @@ exports.login = async (req, res) => {
 		const user = await User.findOne({ email });
 
 		if (!user) {
-			return res.status(404).json({ email: 'User is not found.' });
+			errors.email = 'User is not found.';
+			return res.status(404).json(errors);
 		}
 
 		// Check Password
@@ -77,7 +91,8 @@ exports.login = async (req, res) => {
 				});
 			});
 		} else {
-			return res.status(400).json({ password: 'Password is incorrect.' });
+			errors.password = 'Password is incorrect.';
+			return res.status(400).json(errors);
 		}
 	} catch (error) {
 		console.log(error);
