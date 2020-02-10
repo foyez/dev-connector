@@ -9,9 +9,9 @@ const compression = require('compression');
 const passport = require('passport');
 
 const config = require('./config/config');
-const usersRoutes = require('./routes/users');
-const profileRoutes = require('./routes/profile');
-const postsRoutes = require('./routes/posts');
+const usersRoutes = require('./api/routes/users');
+const profileRoutes = require('./api/routes/profile');
+const postsRoutes = require('./api/routes/posts');
 
 const app = express();
 

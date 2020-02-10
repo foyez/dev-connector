@@ -1,6 +1,6 @@
 const Profile = require('../models/Profile');
 const User = require('../models/User');
-const validateProfileInput = require('../validation/profile');
+const validateProfileInput = require('../../validation/profile');
 
 // CURRENT PROFILE
 exports.getProfile = async (req, res) => {

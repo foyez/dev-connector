@@ -1,11 +1,11 @@
-const User = require('../models/User');
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const config = require('../config/config');
-const validateRegisterInput = require('../validation/register');
-const validateLoginInput = require('../validation/login');
+const User = require('../models/User');
+const config = require('../../config/config');
+const validateRegisterInput = require('../../validation/register');
+const validateLoginInput = require('../../validation/login');
 
 // REGISTER
 exports.register = async (req, res) => {
