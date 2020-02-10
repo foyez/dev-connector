@@ -36,7 +36,12 @@ app.use('/api/posts', postsRoutes);
 config.checkEnvVariables();
 
 mongoose
-	.connect(config.dbUri, { useNewUrlParser: true, useUnifiedTopology: true })
+	.connect(config.dbUri, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+		useCreateIndex: true,
+		useFindAndModify: false
+	})
 	.then(() => {
 		const server = app.listen(config.port, () => {
 			console.log('Your app is listening on port ' + server.address().port);
