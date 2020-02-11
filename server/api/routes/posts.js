@@ -34,4 +34,18 @@ router.post('/like/:post_id', passport.authenticate('jwt', { session: false }), 
 // @access  private
 router.post('/unlike/:post_id', passport.authenticate('jwt', { session: false }), postsController.unlikePostById);
 
+// @route   POST api/posts/comment/:post_id
+// @desc    Add comment to post
+// @access  private
+router.post('/comment/:post_id', passport.authenticate('jwt', { session: false }), postsController.addComment);
+
+// @route   DELETE api/posts/comment/:post_id/:comment_id
+// @desc    Delete comment from post
+// @access  private
+router.delete(
+	'/comment/:post_id/:comment_id',
+	passport.authenticate('jwt', { session: false }),
+	postsController.deleteComment
+);
+
 module.exports = router;
