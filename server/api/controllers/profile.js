@@ -20,6 +20,62 @@ exports.getProfile = async (req, res) => {
 	}
 };
 
+// GET ALL PROFILES
+exports.getProfiles = async (req, res) => {
+	const errors = {};
+
+	try {
+		const profiles = await Profile.find().populate('user', [ 'name', 'avatar' ]);
+
+		if (!profiles) {
+			errors.profile = 'There are no profiles';
+			return res.status(404).json(errors);
+		}
+
+		res.status(200).json(profiles);
+	} catch (error) {
+		errors.profile = 'There are no profiles';
+		res.status(404).json(errors);
+	}
+};
+
+// GET PROFILE BY HANDLE
+exports.getProfileByHandle = async (req, res) => {
+	const errors = {};
+
+	try {
+		const profile = await Profile.findOne({ handle: req.params.handle }).populate('user', [ 'name', 'avatar' ]);
+
+		if (!profile) {
+			errors.profile = 'There is no profile for this user';
+			return res.status(404).json(errors);
+		}
+
+		res.status(200).json(profile);
+	} catch (error) {
+		res.status(400).json(error);
+	}
+};
+
+// GET PROFILE BY USER ID
+exports.getProfileByUserId = async (req, res) => {
+	const errors = {};
+
+	try {
+		const profile = await Profile.findOne({ user: req.params.user_id }).populate('user', [ 'name', 'avatar' ]);
+
+		if (!profile) {
+			errors.profile = 'There is no profile for this user';
+			return res.status(404).json(errors);
+		}
+
+		res.status(200).json(profile);
+	} catch (error) {
+		errors.profile = 'There is no profile for this user';
+		res.status(404).json(errors);
+	}
+};
+
 // CREATE OR EDIT PROFILE
 exports.createProfile = async (req, res) => {
 	const { errors, isValid } = validateProfileInput(req.body);
