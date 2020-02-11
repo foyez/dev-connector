@@ -60,3 +60,43 @@ exports.deletePostById = async (req, res) => {
 		res.status(404).json({ noPostFound: 'No post found' });
 	}
 };
+
+// LIKE POST BY ID
+exports.likePostById = async (req, res) => {
+	try {
+		const post = await Post.findById(req.params.post_id);
+
+		if (post.likes.filter((like) => like.user.toString() === req.user.id).length > 0) {
+			return res.status(400).json({ alreadyLiked: 'User already liked this post' });
+		}
+
+		post.likes.push({ user: req.user.id });
+		const updatedPost = await post.save();
+		res.status(200).json(updatedPost);
+	} catch (error) {
+		res.status(404).json({ noPostFound: 'No post found' });
+	}
+};
+
+// UNLIKE POST BY ID
+exports.unlikePostById = async (req, res) => {
+	try {
+		const post = await Post.findById(req.params.post_id);
+
+		if (post.likes.filter((like) => like.user.toString() === req.user.id).length === 0) {
+			return res.status(400).json({ notLiked: 'You have not liked this post yet' });
+		}
+
+		// Get remove index
+		const removeIndex = post.likes.map((item) => item.user.toString()).indexOf(req.user.id);
+
+		// Splice out of array
+		post.likes.splice(removeIndex, 1);
+
+		// Save
+		const updatedPost = await post.save();
+		res.status(200).json(updatedPost);
+	} catch (error) {
+		res.status(404).json({ noPostFound: 'No post found' });
+	}
+};

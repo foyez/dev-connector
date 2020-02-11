@@ -24,4 +24,14 @@ router.post('/', passport.authenticate('jwt', { session: false }), postsControll
 // @access  private
 router.delete('/:id', passport.authenticate('jwt', { session: false }), postsController.deletePostById);
 
+// @route   POST api/posts/like/:id
+// @desc    Like post
+// @access  private
+router.post('/like/:post_id', passport.authenticate('jwt', { session: false }), postsController.likePostById);
+
+// @route   POST api/posts/unlike/:post_id
+// @desc    Unlike post
+// @access  private
+router.post('/unlike/:post_id', passport.authenticate('jwt', { session: false }), postsController.unlikePostById);
+
 module.exports = router;
