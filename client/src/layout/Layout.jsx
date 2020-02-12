@@ -1,13 +1,16 @@
 import React, { Fragment } from 'react';
 
-import classes from './Layout.module.scss';
+import Navbar from '../components/navbar/navbar.component';
 import Footer from '../components/Footer/Footer';
 
-const Layout = (props) => {
+import classes from './Layout.module.scss';
+
+const Layout = ({ children }) => {
 	return (
 		<Fragment>
 			<main className={classes.container}>
-				<div className={classes.content}>{props.children}</div>
+				<Navbar />
+				<div className={classes.content}>{children}</div>
 				<Footer />
 			</main>
 		</Fragment>

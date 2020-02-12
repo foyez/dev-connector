@@ -1,11 +1,9 @@
 import React from 'react';
 
-import classes from './Footer.module.scss';
-
 const Footer = () => (
-  <footer className={ classes.footer }>
-    <p>Created by Foyez, &copy; { new Date().getFullYear() }</p>
-  </footer>
+	<footer className="bg-dark text-white mt-5 p-4 text-center">
+		Created by Foyez, &copy; {new Date().getFullYear()}
+	</footer>
 );
 
 export default Footer;
