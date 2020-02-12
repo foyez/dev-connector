@@ -1,9 +1,9 @@
 import React, { lazy, Suspense } from 'react';
-import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
 import Layout from './layout/Layout';
 import HomePage from './pages/home/home.component';
-import PlaygroundPage from './pages/playground/playground.component';
+
 import Spinner from './components/UI/Spinner/Spinner';
 import ErrorBoundary from './components/error-boundary/error-boundary.component';
 
@@ -14,7 +14,7 @@ const App = () => {
 		<ErrorBoundary>
 			<Switch>
 				<Route path="/" exact component={HomePage} />
-				<Route path="/playground" component={PlaygroundPage} />
+
 				<Suspense fallback={<Spinner />}>
 					<Route path="*" component={NotFound} />
 				</Suspense>
@@ -26,4 +26,4 @@ const App = () => {
 	return <Layout>{routes}</Layout>;
 };
 
-export default withRouter(App);
+export default App;
