@@ -47,8 +47,8 @@ exports.register = async (req, res) => {
 
 			try {
 				newUser.password = hash;
-				const user = await newUser.save();
-				res.json(user);
+				const updatedUser = await newUser.save();
+				res.json(updatedUser);
 			} catch (error) {
 				console.log(error);
 			}

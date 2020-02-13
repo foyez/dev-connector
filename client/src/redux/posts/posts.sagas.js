@@ -6,7 +6,7 @@ import { fetchPostsSuccess, fetchPostsFailure } from './posts.actions';
 
 export function* fetchPostsAsync() {
 	try {
-		const res = yield axios.get('/posts');
+		const res = yield call(axios.get, '/posts');
 		yield put(fetchPostsSuccess(res.data));
 	} catch (error) {
 		yield put(fetchPostsFailure(error.message));

@@ -1,6 +1,9 @@
 import React from 'react';
-import axios from 'axios';
+import PropTypes from 'prop-types';
 import classnames from 'classnames';
+
+import { connect } from 'react-redux';
+import { signUpStart } from '../../redux/user/user.actions';
 
 class Register extends React.Component {
 	constructor(props) {
@@ -15,24 +18,25 @@ class Register extends React.Component {
 		};
 	}
 
+	static getDerivedStateFromProps(nextProps, prevState) {
+		if (nextProps.errors !== prevState.errors) {
+			return { errors: nextProps.errors }; // <- this is setState equivalent
+		}
+	}
+
 	handleChange = (e) => {
 		const { name, value } = e.target;
 
 		this.setState({ [name]: value });
 	};
 
-	handleSubmit = async (e) => {
+	handleSubmit = (e) => {
 		e.preventDefault();
 
 		const { name, email, password, password2 } = this.state;
 		const newUser = { name, email, password, password2 };
 
-		try {
-			const res = await axios.post('/api/users/register', newUser);
-			console.log(res.data);
-		} catch (error) {
-			this.setState({ errors: error.response.data });
-		}
+		this.props.signUpStart(newUser);
 	};
 
 	render() {
@@ -111,4 +115,13 @@ class Register extends React.Component {
 	}
 }
 
-export default Register;
+Register.propTypes = {
+	signUpStart: PropTypes.func.isRequired,
+	errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state) => ({
+	errors: state.errors
+});
+
+export default connect(mapStateToProps, { signUpStart })(Register);
