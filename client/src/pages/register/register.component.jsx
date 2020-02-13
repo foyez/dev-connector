@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { selectErrors } from '../../redux/error/error.selectors';
 import { signUpStart } from '../../redux/user/user.actions';
 
 class Register extends React.Component {
@@ -120,8 +122,8 @@ Register.propTypes = {
 	errors: PropTypes.object.isRequired
 };
 
-const mapStateToProps = (state) => ({
-	errors: state.errors
+const mapStateToProps = createStructuredSelector({
+	errors: selectErrors
 });
 
 export default connect(mapStateToProps, { signUpStart })(Register);

@@ -1,4 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import classnames from 'classnames';
+
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { selectErrors } from '../../redux/error/error.selectors';
+import { signInStart } from '../../redux/user/user.actions';
 
 class Login extends React.Component {
 	constructor(props) {
@@ -11,6 +18,12 @@ class Login extends React.Component {
 		};
 	}
 
+	static getDerivedStateFromProps(nextProps, prevState) {
+		if (nextProps.errors !== prevState.errors) {
+			return { errors: nextProps.errors };
+		}
+	}
+
 	handleChange = (e) => {
 		const { name, value } = e.target;
 
@@ -20,10 +33,13 @@ class Login extends React.Component {
 	handleSubmit = (e) => {
 		e.preventDefault();
 
-		console.log(this.state);
+		const { email, password } = this.state;
+		this.props.signInStart({ email, password });
 	};
 
 	render() {
+		const { errors } = this.state;
+
 		return (
 			<div className="login">
 				<div className="container">
@@ -35,22 +51,28 @@ class Login extends React.Component {
 								<div className="form-group">
 									<input
 										type="email"
-										className="form-control form-control-lg"
+										className={classnames('form-control form-control-lg', {
+											'is-invalid': errors.email
+										})}
 										placeholder="Email Address"
 										name="email"
 										value={this.state.email}
 										onChange={this.handleChange}
 									/>
+									{errors.email && <div className="invalid-feedback">{errors.email}</div>}
 								</div>
 								<div className="form-group">
 									<input
 										type="password"
-										className="form-control form-control-lg"
+										className={classnames('form-control form-control-lg', {
+											'is-invalid': errors.password
+										})}
 										placeholder="Password"
 										name="password"
 										value={this.state.password}
 										onChange={this.handleChange}
 									/>
+									{errors.password && <div className="invalid-feedback">{errors.password}</div>}
 								</div>
 								<input type="submit" className="btn btn-info btn-block mt-4" />
 							</form>
@@ -62,4 +84,13 @@ class Login extends React.Component {
 	}
 }
 
-export default Login;
+Login.propTypes = {
+	signInStart: PropTypes.func.isRequired,
+	errors: PropTypes.object.isRequired
+};
+
+const mapStateToProps = createStructuredSelector({
+	errors: selectErrors
+});
+
+export default connect(mapStateToProps, { signInStart })(Login);
