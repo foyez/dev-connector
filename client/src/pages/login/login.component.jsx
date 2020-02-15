@@ -5,6 +5,7 @@ import classnames from 'classnames';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { selectErrors } from '../../redux/error/error.selectors';
+import { selectCurrentUser } from '../../redux/user/user.selectors';
 import { signInStart } from '../../redux/user/user.actions';
 
 class Login extends React.Component {
@@ -19,6 +20,10 @@ class Login extends React.Component {
 	}
 
 	static getDerivedStateFromProps(nextProps, prevState) {
+		if (nextProps.currentUser) {
+			nextProps.history.push('/dashboard');
+		}
+
 		if (nextProps.errors !== prevState.errors) {
 			return { errors: nextProps.errors };
 		}
@@ -90,6 +95,7 @@ Login.propTypes = {
 };
 
 const mapStateToProps = createStructuredSelector({
+	currentUser: selectCurrentUser,
 	errors: selectErrors
 });
 

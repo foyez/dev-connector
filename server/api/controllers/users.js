@@ -29,7 +29,7 @@ exports.register = async (req, res) => {
 
 	if (user) {
 		errors.email = 'Email already exists.';
-		return res.status(400).json(errors);
+		return res.status(409).json(errors);
 	}
 
 	const newUser = new User({
@@ -84,7 +84,7 @@ exports.login = async (req, res) => {
 			const payload = { id: user._id, name: user.name, avatar: user.avatar };
 
 			// Sign Token
-			jwt.sign(payload, config.secretOrKey, { expiresIn: 3600 }, (error, token) => {
+			jwt.sign(payload, config.secretOrKey, { expiresIn: '1h' }, (error, token) => {
 				res.json({
 					success: true,
 					token: `Bearer ${token}`

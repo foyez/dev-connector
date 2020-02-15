@@ -3,15 +3,16 @@ import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
 import UserActionTypes from './user.types';
-import { signUpSuccess, signInSuccess } from './user.actions';
+import { signInSuccess, signOutSuccess } from './user.actions';
 import { getErrors } from '../error/error.actions';
 
 import setAuthToken from '../../utils/set-auth-token';
 
-export function* signUp({ payload }) {
+export function* signUp({ payload: { userData, history } }) {
 	try {
-		const res = yield call(axios.post, '/api/users/register', payload);
-		yield put(signUpSuccess(res.data));
+		yield call(axios.post, '/api/users/register', userData);
+		// yield put(signUpSuccess(res.data));
+		history.push('/login');
 	} catch (error) {
 		yield put(getErrors(error.response.data));
 	}
@@ -35,6 +36,16 @@ export function* signIn({ payload }) {
 	}
 }
 
+export function* signOut() {
+	try {
+		yield localStorage.removeItem('jwtToken');
+		setAuthToken(false);
+		yield put(signOutSuccess());
+	} catch (error) {
+		console.log(error);
+	}
+}
+
 export function* onSignUpStart() {
 	yield takeLatest(UserActionTypes.SIGN_UP_START, signUp);
 }
@@ -43,6 +54,10 @@ export function* onSignInStart() {
 	yield takeLatest(UserActionTypes.SIGN_IN_START, signIn);
 }
 
+export function* onSignOutStart() {
+	yield takeLatest(UserActionTypes.SIGN_OUT_START, signOut);
+}
+
 export function* userSaga() {
-	yield all([ call(onSignUpStart), call(onSignInStart) ]);
+	yield all([ call(onSignUpStart), call(onSignInStart), call(onSignOutStart) ]);
 }

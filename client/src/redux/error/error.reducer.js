@@ -1,8 +1,6 @@
 import ErrorActionTypes from './error.types';
 
-const INITIAL_STATE = {
-	errors: {}
-};
+const INITIAL_STATE = {};
 
 const errorReducer = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
